@@ -1,0 +1,89 @@
+﻿@model Models.EventModel
+@{
+    ViewBag.Title = "Event";
+}
+<script src="~/Content/jquery.min.js"></script>
+<script src="~/Content/jquery.dataTables.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="text-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="text-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @using (Html.BeginForm("Event", "EventManage", FormMethod.Post, new { @id = "frmEvent", @enctype = "multipart/form-data" }))
+        {@Html.HiddenFor(model => model.id);
+        <table>
+            <tr>
+                <td>
+                    <label>Event Name</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Event_Name)
+                    @Html.ValidationMessageFor(m => m.Event_Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Start Date</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { @type = "date", @required = "required", @min = DateTime.Now.ToString("yyyy-MM-dd") })
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>End Date</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { @type = "date", @required = "required", @min = DateTime.Now.ToString("yyyy-MM-dd") })
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Event Description</label>
+                </td>
+                <td>
+                    @Html.TextAreaFor(m => m.Event_des)
+                    @Html.ValidationMessageFor(m => m.Event_des)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Location</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Location)
+                    @Html.ValidationMessageFor(m => m.Location)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Save" />
+                </td>
+            </tr>
+        </table>
+    }
+        <br />
+        <br />
+        @{Html.RenderAction("EventDataList", "EventManage");}
+        @{Html.RenderAction("EventDataListPassed", "EventManage");}
+    </div>
+</body>
+</html>
+

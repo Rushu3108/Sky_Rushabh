@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Models.EventModel>
+@{
+    ViewBag.Title = "EventDataPassedList";
+    Layout = null;
+}
+<h4>Passed Events</h4>
+<div class="col-md-12 col-sm-12 col-lg-12">
+    <table class="table table-striped table-bordered " id="EventList">
+        <thead>
+            <tr>
+                <th>
+                    Event Name
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Event Description
+                </th>
+                <th>
+                    Location
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event_des)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td colspan="2">
+                    <a href="@Url.Action("Event", "EventManage",new { id = item.id })" class="">Edit</a>
+                    <a onclick="DeleteDetails(@item.id)" class="">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var table = $('#EventList').dataTable({
+            "paging": true,
+            "scrollX": true,
+            "scrollY": "250px",
+            "scrollCollapse": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "order": [[3, "asc"]],
+            "columnDefs": [{ "orderable": false, "targets": 7 }],
+            "info": false,
+            "autoWidth": false
+        });
+    });
+</script>
+<script type="text/javascript">
+    function DeleteDetails(Id) {
+        if (confirm("Are you sure you want to Delete Details?")) {
+            window.location.reload();
+            $.ajax(
+            {
+                type: "POST",
+                url: "@Url.Action("DeleteEvent", "EventManage")",
+                data: {
+                    Id: Id,
+                }
+            });
+        }
+        else {
+            window.location.reload();
+        }
+    }
+</script>
+
+
+
